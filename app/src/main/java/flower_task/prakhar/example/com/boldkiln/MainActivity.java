@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -19,12 +20,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     private static String TAG = MainActivity.class.getSimpleName();
     private String urlJson = "http://development.easystartup.org/NO/Backend/flower.php";
     private ProgressDialog pDialog;
-    Gson gson;
+    private Gson gson;
+    ListView listView;
+    List<Flower> flowerList;
+    FlowerListAdapter flowerListAdapter;
 
 
     @Override
@@ -36,6 +44,13 @@ public class MainActivity extends AppCompatActivity {
         pDialog.setMessage("Please wait...");
         pDialog.setCancelable(false);
         makeJsonObjectRequest();
+
+        listView = (ListView) findViewById(R.id.listView);
+
+//        listView = (ListView) findViewById(R.id.listView);
+//        flowerList = new ArrayList<Flower>();
+//        flowerListAdapter = new FlowerListAdapter(this, flowerList);
+//        listView.setAdapter(flowerListAdapter);
     }
 
     private void makeJsonObjectRequest() {
@@ -47,15 +62,29 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(TAG, response.toString());
+                Log.d("1","1");
+//                Log.d(TAG, response.toString());
+//                System.out.print("2");
 
                 try {
                     // Parsing json object response
                     // response will be a json object
+                    Log.d("2","2");
                     gson = new GsonBuilder().serializeNulls().create();
-                    Flower flower[] = gson.fromJson(response.getJSONArray("data").toString(), Flower[].class);
+                    Log.d("10",response.getJSONArray("data").toString());
+                    Flower.DataBean[] dataBean = gson.fromJson(response.getJSONArray("data").toString(), Flower.DataBean[].class);
+                    Log.d("15", dataBean[0].getName());
+//                    for(int i=0;i<dataBean.length;i++){
+//                        if (dataBean[i] != null) {
+//                            Log.d(String.valueOf(i), String.valueOf(dataBean[i].getName()));
+//                        }
+//                    }
+                    flowerListAdapter = new FlowerListAdapter(getApplicationContext(), Arrays.asList(dataBean));
+                    listView.setAdapter(flowerListAdapter);
 
                 } catch (JSONException e) {
+//                    System.out.print("5");
+                    Log.d("4","4");
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(),
                             "Error: " + e.getMessage(),
@@ -67,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.d("5","5");
+//                System.out.print("6");
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_SHORT).show();
