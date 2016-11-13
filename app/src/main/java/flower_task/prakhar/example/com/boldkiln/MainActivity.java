@@ -3,7 +3,12 @@ package flower_task.prakhar.example.com.boldkiln;
 import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -11,18 +16,15 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,9 +32,9 @@ public class MainActivity extends AppCompatActivity {
     private String urlJson = "http://development.easystartup.org/NO/Backend/flower.php";
     private ProgressDialog pDialog;
     private Gson gson;
-    ListView listView;
-    List<Flower> flowerList;
-    FlowerListAdapter flowerListAdapter;
+    private ListView listView;
+    private FlowerListAdapter flowerListAdapter;
+    private EditText inputSearch;;
 
 
     @Override
@@ -46,11 +48,38 @@ public class MainActivity extends AppCompatActivity {
         makeJsonObjectRequest();
 
         listView = (ListView) findViewById(R.id.listView);
+        inputSearch = (EditText) findViewById(R.id.inputSearch);
 
-//        listView = (ListView) findViewById(R.id.listView);
-//        flowerList = new ArrayList<Flower>();
-//        flowerListAdapter = new FlowerListAdapter(this, flowerList);
-//        listView.setAdapter(flowerListAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Flower.DataBean dataBean = (Flower.DataBean) flowerListAdapter.getItem(i);
+                Log.d("100",dataBean.getName());
+                Toast.makeText(getApplicationContext(),dataBean.getName(),Toast.LENGTH_LONG).show();
+            }
+        });
+
+        inputSearch.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                // TODO Auto-generated method stub
+                String text = inputSearch.getText().toString().toLowerCase(Locale.getDefault());
+                flowerListAdapter.filter(text);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1,
+                                          int arg2, int arg3) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2,
+                                      int arg3) {
+                // TODO Auto-generated method stub
+            }
+        });
     }
 
     private void makeJsonObjectRequest() {
