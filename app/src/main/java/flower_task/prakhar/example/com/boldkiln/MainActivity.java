@@ -1,6 +1,7 @@
 package flower_task.prakhar.example.com.boldkiln;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -34,7 +35,8 @@ public class MainActivity extends AppCompatActivity {
     private Gson gson;
     private ListView listView;
     private FlowerListAdapter flowerListAdapter;
-    private EditText inputSearch;;
+    private EditText inputSearch;
+    private Intent intent;
 
 
     @Override
@@ -55,6 +57,10 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Flower.DataBean dataBean = (Flower.DataBean) flowerListAdapter.getItem(i);
                 Log.d("100",dataBean.getName());
+                intent = new Intent(MainActivity.this, SecondActivity.class);
+                intent.putExtra("imageurl", dataBean.getUrl());
+                intent.putExtra("flower_name", dataBean.getName());
+                startActivity(intent);
                 Toast.makeText(getApplicationContext(),dataBean.getName(),Toast.LENGTH_LONG).show();
             }
         });
