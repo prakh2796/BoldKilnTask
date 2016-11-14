@@ -30,6 +30,8 @@ public class FlowerListAdapter extends BaseAdapter {
     private Context context;
     private List<Flower.DataBean> flowerList;
     private ArrayList<Flower.DataBean> arraylist;
+    private List<Integer> value;
+    private Boolean reverse;
 
     public FlowerListAdapter(Context context, List<Flower.DataBean> flowerList) {
         this.context = context;
@@ -38,6 +40,11 @@ public class FlowerListAdapter extends BaseAdapter {
         this.flowerList.addAll(flowerList);
         this.arraylist = new ArrayList<Flower.DataBean>();
         this.arraylist.addAll(flowerList);
+        value = new ArrayList<>();
+        reverse = false;
+        for(int j=0;j<flowerList.size();j++){
+            value.add(0);
+        }
     }
 
     @Override
@@ -57,7 +64,7 @@ public class FlowerListAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
-        ViewHolder holder;
+        final ViewHolder holder;
         if (inflater == null) {
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
@@ -68,6 +75,15 @@ public class FlowerListAdapter extends BaseAdapter {
         holder.share = (ImageView) view.findViewById(R.id.share);
         holder.bookmark = (ImageView) view.findViewById(R.id.bookmark);
         view.setTag(holder);
+
+        for(int j=0;j<value.size();j++){
+            if(value.get(i) == 0) {
+                holder.bookmark.setImageDrawable(context.getResources().getDrawable(R.drawable.bookmark));
+            }else {
+                holder.bookmark.setImageDrawable(context.getResources().getDrawable(R.drawable.bookmarked));
+            }
+        }
+
         final Flower.DataBean flower = flowerList.get(i);
         if(flower != null) {
             holder.flowerName.setText(flower.getName());
@@ -90,6 +106,19 @@ public class FlowerListAdapter extends BaseAdapter {
                 Intent new_intent = Intent.createChooser(shareIntent, "Share via");
                 new_intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(new_intent);
+            }
+        });
+
+        holder.bookmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(value.get(i) == 0) {
+                    holder.bookmark.setImageDrawable(context.getResources().getDrawable(R.drawable.bookmarked));
+                    value.set(i, 1);
+                }else {
+                    holder.bookmark.setImageDrawable(context.getResources().getDrawable(R.drawable.bookmark));
+                    value.set(i, 0);
+                }
             }
         });
         return view;
@@ -129,6 +158,10 @@ public class FlowerListAdapter extends BaseAdapter {
                 });
             }
         }
+        if(reverse == true) {
+            Collections.reverse(value);
+            reverse = false;
+        }
         for (int i = 0; i < dataBean.size(); i++) {
             if (dataBean.get(i) != null) {
                 System.out.println(dataBean.get(i).getName());
@@ -155,6 +188,10 @@ public class FlowerListAdapter extends BaseAdapter {
             }
         }
         Collections.reverse(dataBean);
+        if(reverse == false) {
+            Collections.reverse(value);
+            reverse = true;
+        }
         for(int i=0; i < Arrays.asList(dataBean).size(); i++){
             if (dataBean.get(i) != null) {
                 System.out.println(dataBean.get(i).getName());

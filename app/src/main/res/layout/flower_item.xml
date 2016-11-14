@@ -40,7 +40,8 @@
                 android:id="@+id/bookmark"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
-                android:src="@android:drawable/ic_menu_save"/>
+                android:layout_margin="2dp"
+                android:src="@drawable/bookmark"/>
         </LinearLayout>
     </LinearLayout>
 
