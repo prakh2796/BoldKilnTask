@@ -26,9 +26,9 @@ import com.google.gson.GsonBuilder;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,13 +42,16 @@ public class MainActivity extends AppCompatActivity {
     private EditText inputSearch;
     private Intent intent;
     private Flower.DataBean dataBeanItem;
-    private Flower.DataBean[] dataBean;
+    private Flower.DataBean[] temp;
+    private List<Flower.DataBean> dataBean;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        dataBean = new ArrayList<>();
 
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Please wait...");
@@ -113,14 +116,15 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("2","2");
                     gson = new GsonBuilder().serializeNulls().create();
                     Log.d("10",response.getJSONArray("data").toString());
-                    dataBean = gson.fromJson(response.getJSONArray("data").toString(), Flower.DataBean[].class);
-                    Log.d("15", dataBean[0].getName());
-//                    for(int i=0;i<dataBean.length;i++){
-//                        if (dataBean[i] != null) {
+                    temp = gson.fromJson(response.getJSONArray("data").toString(), Flower.DataBean[].class);
+//                    Log.d("15", dataBean[0].getName());
+                    for(int i=0,j=0;i<temp.length;i++){
+                        if (temp[i] != null) {
 //                            Log.d(String.valueOf(i), String.valueOf(dataBean[i].getName()));
-//                        }
-//                    }
-                    flowerListAdapter = new FlowerListAdapter(getApplicationContext(), Arrays.asList(dataBean));
+                            dataBean.add(temp[i]);
+                        }
+                    }
+                    flowerListAdapter = new FlowerListAdapter(getApplicationContext(), dataBean);
                     listView.setAdapter(flowerListAdapter);
 
                 } catch (JSONException e) {

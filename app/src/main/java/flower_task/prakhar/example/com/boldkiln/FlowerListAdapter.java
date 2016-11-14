@@ -115,10 +115,10 @@ public class FlowerListAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void sortAscending(Flower.DataBean[] dataBean) {
-        for (int i = 0; i < Arrays.asList(dataBean).size(); i++) {
-            if (dataBean[i] != null) {
-                Collections.sort(Arrays.asList(dataBean), new Comparator<Flower.DataBean>() {
+    public void sortAscending(List<Flower.DataBean> dataBean) {
+        for (int i = 0; i < dataBean.size(); i++) {
+            if (dataBean.get(i) != null) {
+                Collections.sort(dataBean, new Comparator<Flower.DataBean>() {
                     @Override
                     public int compare(Flower.DataBean s1, Flower.DataBean s2) {
                         if (s1 != null && s2 != null) {
@@ -129,21 +129,21 @@ public class FlowerListAdapter extends BaseAdapter {
                 });
             }
         }
-        for (int i = 0; i < Arrays.asList(dataBean).size(); i++) {
-            if (dataBean[i] != null) {
-                System.out.println(dataBean[i].getName());
+        for (int i = 0; i < dataBean.size(); i++) {
+            if (dataBean.get(i) != null) {
+                System.out.println(dataBean.get(i).getName());
             }
 
         }
         flowerList.clear();
-        flowerList.addAll(Arrays.asList(dataBean));
+        flowerList.addAll(dataBean);
         this.notifyDataSetChanged();
     }
 
-    public void sortDescending(Flower.DataBean[] dataBean) {
-        for(int i=0; i < Arrays.asList(dataBean).size(); i++) {
-            if (dataBean[i] != null) {
-                Collections.sort(Arrays.asList(dataBean), new Comparator<Flower.DataBean>() {
+    public void sortDescending(List<Flower.DataBean> dataBean) {
+        for(int i=0; i < dataBean.size(); i++) {
+            if (dataBean.get(i) != null) {
+                Collections.sort(dataBean, new Comparator<Flower.DataBean>() {
                     @Override
                     public int compare(Flower.DataBean s1, Flower.DataBean s2) {
                         if(s1 != null && s2 != null) {
@@ -154,14 +154,14 @@ public class FlowerListAdapter extends BaseAdapter {
                 });
             }
         }
-        Collections.reverse(Arrays.asList(dataBean));
+        Collections.reverse(dataBean);
         for(int i=0; i < Arrays.asList(dataBean).size(); i++){
-            if (dataBean[i] != null) {
-                System.out.println(dataBean[i].getName());
+            if (dataBean.get(i) != null) {
+                System.out.println(dataBean.get(i).getName());
             }
         }
         flowerList.clear();
-        flowerList.addAll(Arrays.asList(dataBean));
+        flowerList.addAll(dataBean);
         this.notifyDataSetChanged();
     }
 
