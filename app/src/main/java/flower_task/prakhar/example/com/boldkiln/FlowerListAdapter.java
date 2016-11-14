@@ -14,6 +14,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -112,9 +115,60 @@ public class FlowerListAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void sortAscending(Flower.DataBean[] dataBean) {
+        for (int i = 0; i < Arrays.asList(dataBean).size(); i++) {
+            if (dataBean[i] != null) {
+                Collections.sort(Arrays.asList(dataBean), new Comparator<Flower.DataBean>() {
+                    @Override
+                    public int compare(Flower.DataBean s1, Flower.DataBean s2) {
+                        if (s1 != null && s2 != null) {
+                            return s1.getName().compareToIgnoreCase(s2.getName());
+                        }
+                        return 0;
+                    }
+                });
+            }
+        }
+        for (int i = 0; i < Arrays.asList(dataBean).size(); i++) {
+            if (dataBean[i] != null) {
+                System.out.println(dataBean[i].getName());
+            }
+
+        }
+        flowerList.clear();
+        flowerList.addAll(Arrays.asList(dataBean));
+        this.notifyDataSetChanged();
+    }
+
+    public void sortDescending(Flower.DataBean[] dataBean) {
+        for(int i=0; i < Arrays.asList(dataBean).size(); i++) {
+            if (dataBean[i] != null) {
+                Collections.sort(Arrays.asList(dataBean), new Comparator<Flower.DataBean>() {
+                    @Override
+                    public int compare(Flower.DataBean s1, Flower.DataBean s2) {
+                        if(s1 != null && s2 != null) {
+                            return s1.getName().compareToIgnoreCase(s2.getName());
+                        }
+                        return 0;
+                    }
+                });
+            }
+        }
+        Collections.reverse(Arrays.asList(dataBean));
+        for(int i=0; i < Arrays.asList(dataBean).size(); i++){
+            if (dataBean[i] != null) {
+                System.out.println(dataBean[i].getName());
+            }
+        }
+        flowerList.clear();
+        flowerList.addAll(Arrays.asList(dataBean));
+        this.notifyDataSetChanged();
+    }
+
     static class ViewHolder
     {
         TextView flowerName;
         ImageView flowerImage,share,bookmark;
     }
+
 }

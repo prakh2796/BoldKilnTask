@@ -4,12 +4,12 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/action_settings"
+            android:id="@+id/asc"
             android:orderInCategory="99"
             android:title="Sort a-z"
             app:showAsAction="never" />
         <item
-            android:id="@+id/action_logout"
+            android:id="@+id/desc"
             android:orderInCategory="100"
             android:title="Sort z-a"
             app:showAsAction="never" />

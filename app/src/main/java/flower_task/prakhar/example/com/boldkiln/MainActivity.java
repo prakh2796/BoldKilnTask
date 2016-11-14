@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -25,6 +27,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -37,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     private FlowerListAdapter flowerListAdapter;
     private EditText inputSearch;
     private Intent intent;
+    private Flower.DataBean dataBeanItem;
+    private Flower.DataBean[] dataBean;
 
 
     @Override
@@ -55,13 +61,13 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Flower.DataBean dataBean = (Flower.DataBean) flowerListAdapter.getItem(i);
-                Log.d("100",dataBean.getName());
+                dataBeanItem = (Flower.DataBean) flowerListAdapter.getItem(i);
+                Log.d("100",dataBeanItem.getName());
                 intent = new Intent(MainActivity.this, SecondActivity.class);
-                intent.putExtra("imageurl", dataBean.getUrl());
-                intent.putExtra("flower_name", dataBean.getName());
+                intent.putExtra("imageurl", dataBeanItem.getUrl());
+                intent.putExtra("flower_name", dataBeanItem.getName());
                 startActivity(intent);
-                Toast.makeText(getApplicationContext(),dataBean.getName(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),dataBeanItem.getName(),Toast.LENGTH_LONG).show();
             }
         });
 
@@ -107,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("2","2");
                     gson = new GsonBuilder().serializeNulls().create();
                     Log.d("10",response.getJSONArray("data").toString());
-                    Flower.DataBean[] dataBean = gson.fromJson(response.getJSONArray("data").toString(), Flower.DataBean[].class);
+                    dataBean = gson.fromJson(response.getJSONArray("data").toString(), Flower.DataBean[].class);
                     Log.d("15", dataBean[0].getName());
 //                    for(int i=0;i<dataBean.length;i++){
 //                        if (dataBean[i] != null) {
@@ -143,6 +149,69 @@ public class MainActivity extends AppCompatActivity {
 
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(jsonObjReq);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.asc) {
+            flowerListAdapter.sortAscending(dataBean);
+//            for(int i=0; i < Arrays.asList(dataBean).size(); i++) {
+//                if (dataBean[i] != null) {
+//                    Collections.sort(Arrays.asList(dataBean), new Comparator<Flower.DataBean>() {
+//                        @Override
+//                        public int compare(Flower.DataBean s1, Flower.DataBean s2) {
+//                            if(s1 != null && s2 != null) {
+//                                return s1.getName().compareToIgnoreCase(s2.getName());
+//                            }
+//                            return 0;
+//                        }
+//                    });
+//                }
+//            }
+//            for(int i=0; i < Arrays.asList(dataBean).size(); i++){
+//                if (dataBean[i] != null) {
+//                    System.out.println(dataBean[i].getName());
+//                }
+//            }
+            return true;
+        } else if (id == R.id.desc) {
+            flowerListAdapter.sortDescending(dataBean);
+//            for(int i=0; i < Arrays.asList(dataBean).size(); i++) {
+//                if (dataBean[i] != null) {
+//                    Collections.sort(Arrays.asList(dataBean), new Comparator<Flower.DataBean>() {
+//                        @Override
+//                        public int compare(Flower.DataBean s1, Flower.DataBean s2) {
+//                            if(s1 != null && s2 != null) {
+//                                return s1.getName().compareToIgnoreCase(s2.getName());
+//                            }
+//                            return 0;
+//                        }
+//                    });
+//                }
+//            }
+//            Collections.reverse(Arrays.asList(dataBean));
+//            for(int i=0; i < Arrays.asList(dataBean).size(); i++){
+//                if (dataBean[i] != null) {
+//                    System.out.println(dataBean[i].getName());
+//                }
+//            }
+            return true;
+        }
+        flowerListAdapter.notifyDataSetChanged();
+        return super.onOptionsItemSelected(item);
     }
 
 
