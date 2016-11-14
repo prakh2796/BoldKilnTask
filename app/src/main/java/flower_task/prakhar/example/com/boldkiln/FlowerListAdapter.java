@@ -32,10 +32,11 @@ public class FlowerListAdapter extends BaseAdapter {
     private ArrayList<Flower.DataBean> arraylist;
     private List<Integer> value;
     private Boolean reverse;
+    private String shareBody;
+    private Intent shareIntent;
 
     public FlowerListAdapter(Context context, List<Flower.DataBean> flowerList) {
         this.context = context;
-//        this.flowerList = flowerList;
         this.flowerList = new ArrayList<Flower.DataBean>();
         this.flowerList.addAll(flowerList);
         this.arraylist = new ArrayList<Flower.DataBean>();
@@ -98,8 +99,8 @@ public class FlowerListAdapter extends BaseAdapter {
         holder.share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String shareBody = "Flower Name- " + flowerList.get(i).getName() + "\n\nImage Link- " + flowerList.get(i).getUrl();
-                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareBody = "Flower Name- " + flowerList.get(i).getName() + "\n\nImage Link- " + flowerList.get(i).getUrl();
+                shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 shareIntent.setType("text/plain");
                 shareIntent.putExtra(Intent.EXTRA_TEXT, shareBody);

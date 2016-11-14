@@ -27,7 +27,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -106,9 +105,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(JSONObject response) {
-                Log.d("1","1");
-//                Log.d(TAG, response.toString());
-//                System.out.print("2");
 
                 try {
                     // Parsing json object response
@@ -117,10 +113,8 @@ public class MainActivity extends AppCompatActivity {
                     gson = new GsonBuilder().serializeNulls().create();
                     Log.d("10",response.getJSONArray("data").toString());
                     temp = gson.fromJson(response.getJSONArray("data").toString(), Flower.DataBean[].class);
-//                    Log.d("15", dataBean[0].getName());
                     for(int i=0,j=0;i<temp.length;i++){
                         if (temp[i] != null) {
-//                            Log.d(String.valueOf(i), String.valueOf(dataBean[i].getName()));
                             dataBean.add(temp[i]);
                         }
                     }
@@ -128,8 +122,6 @@ public class MainActivity extends AppCompatActivity {
                     listView.setAdapter(flowerListAdapter);
 
                 } catch (JSONException e) {
-//                    System.out.print("5");
-                    Log.d("4","4");
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(),
                             "Error: " + e.getMessage(),
@@ -141,8 +133,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("5","5");
-//                System.out.print("6");
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_SHORT).show();
@@ -174,46 +164,9 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.asc) {
             flowerListAdapter.sortAscending(dataBean);
-//            for(int i=0; i < Arrays.asList(dataBean).size(); i++) {
-//                if (dataBean[i] != null) {
-//                    Collections.sort(Arrays.asList(dataBean), new Comparator<Flower.DataBean>() {
-//                        @Override
-//                        public int compare(Flower.DataBean s1, Flower.DataBean s2) {
-//                            if(s1 != null && s2 != null) {
-//                                return s1.getName().compareToIgnoreCase(s2.getName());
-//                            }
-//                            return 0;
-//                        }
-//                    });
-//                }
-//            }
-//            for(int i=0; i < Arrays.asList(dataBean).size(); i++){
-//                if (dataBean[i] != null) {
-//                    System.out.println(dataBean[i].getName());
-//                }
-//            }
             return true;
         } else if (id == R.id.desc) {
             flowerListAdapter.sortDescending(dataBean);
-//            for(int i=0; i < Arrays.asList(dataBean).size(); i++) {
-//                if (dataBean[i] != null) {
-//                    Collections.sort(Arrays.asList(dataBean), new Comparator<Flower.DataBean>() {
-//                        @Override
-//                        public int compare(Flower.DataBean s1, Flower.DataBean s2) {
-//                            if(s1 != null && s2 != null) {
-//                                return s1.getName().compareToIgnoreCase(s2.getName());
-//                            }
-//                            return 0;
-//                        }
-//                    });
-//                }
-//            }
-//            Collections.reverse(Arrays.asList(dataBean));
-//            for(int i=0; i < Arrays.asList(dataBean).size(); i++){
-//                if (dataBean[i] != null) {
-//                    System.out.println(dataBean[i].getName());
-//                }
-//            }
             return true;
         }
         flowerListAdapter.notifyDataSetChanged();
