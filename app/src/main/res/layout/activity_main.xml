@@ -4,13 +4,13 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="flower_task.prakhar.example.com.boldkiln.MainActivity">
+    tools:context="flower_task.prakhar.example.com.boldkiln.Controller.Activity.MainActivity">
 
     <!-- Editext for Search -->
     <EditText android:id="@+id/inputSearch"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="Search products.."
+        android:hint="Search flowers.."
         android:inputType="textVisiblePassword"/>
 
     <ListView

@@ -1,4 +1,4 @@
-package flower_task.prakhar.example.com.boldkiln;
+package flower_task.prakhar.example.com.boldkiln.Controller.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
+import flower_task.prakhar.example.com.boldkiln.R;
 
 /**
  * Created by Prakhar Gupta on 14/11/2016.

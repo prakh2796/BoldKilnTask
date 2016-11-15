@@ -1,4 +1,4 @@
-package flower_task.prakhar.example.com.boldkiln;
+package flower_task.prakhar.example.com.boldkiln.Controller.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +19,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+
+import flower_task.prakhar.example.com.boldkiln.Controller.Other.CircleTransform;
+import flower_task.prakhar.example.com.boldkiln.Model.Flower;
+import flower_task.prakhar.example.com.boldkiln.R;
 
 /**
  * Created by Prakhar Gupta on 12/11/2016.

@@ -1,4 +1,4 @@
-package flower_task.prakhar.example.com.boldkiln;
+package flower_task.prakhar.example.com.boldkiln.Model;
 
 import java.util.List;
 
